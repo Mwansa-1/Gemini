@@ -4,7 +4,7 @@
     <title>Chat</title>
 </head>
 <body>
-    <h1>Chat with the Model</h1>
+    <h1>Chat with UNZA Robot</h1>
     <form id="chat-form" method="post">
         {% csrf_token %}
         <label for="prompt">Enter your message:</label>
@@ -12,6 +12,15 @@
         <button type="submit">Send</button>
     </form>
     <div id="response"></div>
+
+    <h2>Conversation</h2>
+    <ul>
+        {% for conversation in conversations %}
+        {% comment %} get username  {% endcomment %}
+         
+            <li><strong> {{ user.username }} </strong> {{ conversation.user_input }} <br> <strong> UNZA Robot:</strong> {{ conversation.bot_response }}</li>
+        {% endfor %}
+    </ul>
 
     <script>
         document.getElementById('chat-form').addEventListener('submit', function(event) {
@@ -30,6 +39,7 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('response').innerText = data.response;
+                location.reload(); // Reload the page to show the new conversation
             });
         });
     </script>
